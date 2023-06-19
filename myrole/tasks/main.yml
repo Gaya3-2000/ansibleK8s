@@ -1,8 +1,8 @@
 
 ---
-# tasks file for nginxdeployment
+# tasks file
 - name: Pulling ECR Image From ECR Repository 
-  shell: $(aws ecr get-login --no-include-email --region us-east-1) && docker pull "400017865169.dkr.ecr.us-east-1.amazonaws.com/newecr"
+  shell: $(aws ecr get-login --no-include-email --region ap-south-1) && docker pull 920156365760.dkr.ecr.ap-south-1.amazonaws.com/gaya3_repo:latest
 
 - name: NGINX Deployment
   k8s:
@@ -27,11 +27,12 @@
           spec:
             containers:
               - name: nginx
-                image: "400017865169.dkr.ecr.us-east-1.amazonaws.com/newecr"
+                image: "920156365760.dkr.ecr.ap-south-1.amazonaws.com/gaya3_repo:latest"
+                imagePullPolicy: Always
                 ports:
                   - containerPort: 80
             imagePullSecrets:
-              - name: regcred2
+              - name: regcred
 
 - name: NGINX Service
   k8s:
